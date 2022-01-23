@@ -1,0 +1,70 @@
+name: install/cache generic tools
+
+inputs:
+  tools:     { required: true,  type: string }
+  install:   { required: true,  type: string }
+  directory: { required: true,  type: string }
+  version:   { required: true,  type: string }
+  cache:     { required: false, type: string, default: yes }
+  cache-gen: { required: false, type: string, default: v1 }
+
+outputs:
+  cache-hit:
+    value: ${{ steps.cache.outputs.cache-hit }}
+
+runs:
+  using: composite
+  steps:
+
+    - id: setup
+      shell: bash
+      run: |
+        case "${{ inputs.cache }}" in
+          yes|workflow) cache="${{ inputs.cache }}" ;;
+          *)            cache=no ;;
+        esac
+        gen="${{ inputs.cache-gen }}"
+        tools="${{ inputs.tools }}"
+        hash=$( (uname -mrsv; ${{ inputs.version }}) | md5sum | awk '{print $1}' )
+        [ "$cache" == 'workflow' ] && hash=$hash-${{ github.run_id }}
+        cat << END
+        ::set-output name=cache::$cache
+        ::set-output name=archive::/tmp/generic-package.tz
+        ::set-output name=hash::$hash
+        END
+
+    - id: cache
+      if: steps.setup.outputs.cache != 'no'
+      uses: actions/cache@v2
+      with:
+        path: ${{ steps.setup.outputs.archive }}
+        key:  ${{ steps.setup.outputs.hash }}
+
+    - id: extract
+      if: steps.setup.outputs.cache != 'no' && steps.cache.outputs.cache-hit == 'true'
+      shell: bash
+      run: |
+        archive="${{ steps.setup.outputs.archive }}"
+        ls -l $archive
+        [ -f $archive ] && sudo tar -C / -xvzf $archive
+
+    - id: install
+      if: steps.setup.outputs.cache == 'no' || steps.cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        sudo ${{ inputs.install }} ${{ inputs.tools }}
+
+    - id: archive
+      if: steps.setup.outputs.cache != 'no' && steps.cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        tools="${{ inputs.tools }}"
+        archive="${{ steps.setup.outputs.archive }}"
+        directory="${{ steps.setup.outputs.directory }}"
+        list=/tmp/find.out
+        epoch=/tmp/epochfile
+        date > $epoch
+        cd /
+        find $directory -cnewer $epoch -not -type d > $list
+        tar -cvzf $archive -T $list
+        ls -l $archive
