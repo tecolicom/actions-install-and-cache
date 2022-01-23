@@ -37,6 +37,7 @@ runs:
         ::set-output name=cache::$cache
         ::set-output name=archive::/tmp/generic-package.tz
         ::set-output name=hash::$hash
+        ::set-output name=epoch::/tmp/epoch_file
         END
 
     - id: cache
@@ -58,19 +59,26 @@ runs:
       if: steps.setup.outputs.cache == 'no' || steps.cache.outputs.cache-hit != 'true'
       shell: bash
       run: |
+        epoch=${{ steps.setup.outputs.epoch }}
+        date > $epoch
         ${{ inputs.install }} ${{ inputs.tools }}
+
 
     - id: archive
       if: steps.setup.outputs.cache != 'no' && steps.cache.outputs.cache-hit != 'true'
       shell: bash
       run: |
+        epoch=${{ steps.setup.outputs.epoch }}
         tools="${{ inputs.tools }}"
         archive="${{ steps.setup.outputs.archive }}"
         directory="${{ inputs.directory }}"
         list=/tmp/find.out
-        epoch=/tmp/epochfile
-        date > $epoch
-        cd /
-        sudo find $directory -cnewer $epoch -not -type d > $list
-        sudo tar -cvzf $archive -T $list
-        ls -l $archive
+        if [ -f $epoch ]
+        then
+          cd /
+          sudo find $directory -cnewer $epoch -not -type d > $list
+          sudo tar -cvzf $archive -T $list
+          ls -l $archive
+        else
+          echo $epoch not found
+        fi
