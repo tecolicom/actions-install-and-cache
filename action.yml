@@ -48,17 +48,6 @@ runs:
         ls -l $archive
         [ -f $archive ] && sudo tar -C / -xvzf $archive
 
-    - id: install-brew
-      shell: bash
-      run: |
-        bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-        test -d ~/.linuxbrew && PATH="$HOME/.linuxbrew/bin:$HOME/.linuxbrew/sbin:$PATH"
-        test -d /home/linuxbrew/.linuxbrew && PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:$PATH"
-        brew --prefix
-        printenv
-        echo "$(brew --prefix)/bin" >> $GITHUB_PATH
-        echo "$(brew --prefix)/sbin'" >> $GITHUB_PATH
-
     - id: install
       if: steps.setup.outputs.cache == 'no' || steps.cache.outputs.cache-hit != 'true'
       shell: bash
@@ -71,7 +60,7 @@ runs:
       run: |
         tools="${{ inputs.tools }}"
         archive="${{ steps.setup.outputs.archive }}"
-        directory="${{ steps.setup.outputs.directory }}"
+        directory="${{ inputs.directory }}"
         list=/tmp/find.out
         epoch=/tmp/epochfile
         date > $epoch
