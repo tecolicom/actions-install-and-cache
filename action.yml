@@ -60,7 +60,6 @@ runs:
         date > $epoch
         ${{ inputs.install }} ${{ inputs.tools }}
 
-
     - id: archive
       if: steps.setup.outputs.cache != 'no' && steps.cache.outputs.cache-hit != 'true'
       shell: bash
@@ -70,6 +69,7 @@ runs:
         archive="${{ steps.setup.outputs.archive }}"
         directory="${{ inputs.directory }}"
         : ${epoch?} ${tools?} ${archive?} ${directory?}
+        [[ "$directory" =~ ^/ ]]
         list=/tmp/find.out
         if [ -f $epoch ]
         then
