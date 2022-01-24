@@ -69,6 +69,7 @@ runs:
         tools="${{ inputs.tools }}"
         archive="${{ steps.setup.outputs.archive }}"
         directory="${{ inputs.directory }}"
+        : ${epoch?} ${tools?} ${archive?} ${directory?}
         list=/tmp/find.out
         if [ -f $epoch ]
         then
