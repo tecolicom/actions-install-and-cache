@@ -31,7 +31,7 @@ runs:
         [ "$cache" == 'workflow' ] && hash=$hash-${{ github.run_id }}
         cat << END
         ::set-output name=cache::$cache
-        ::set-output name=archive::/tmp/generic-package.tz
+        ::set-output name=archive::$HOME/cache-updates.tz
         ::set-output name=hash::$hash
         ::set-output name=epoch::/tmp/epoch_file
         END
