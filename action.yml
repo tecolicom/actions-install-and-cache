@@ -56,6 +56,7 @@ runs:
       if: steps.setup.outputs.cache == 'no' || steps.cache.outputs.cache-hit != 'true'
       shell: bash
       run: |
+        set -x
         epoch=${{ steps.setup.outputs.epoch }}
         date > $epoch
         ${{ inputs.install }} ${{ inputs.tools }}
