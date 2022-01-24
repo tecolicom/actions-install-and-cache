@@ -74,8 +74,13 @@ runs:
         then
           cd /
           time sudo find $directory -cnewer $epoch -not -type d > $list
-          time sudo tar -cvzf $archive -T $list
-          ls -l $archive
+          if [ -s $list ]
+          then
+            time sudo tar -cvzf $archive -T $list
+            ls -l $archive
+          else
+            echo "no installed files."
+          fi
         else
           echo $epoch not found
         fi
