@@ -18,7 +18,7 @@ jobs:
           cache: workflow
           tools: passwd
           install: cd /tmp; cp /etc/passwd
-          directory: /tmp
+          directory: /tmp/
       - run: ls -l /tmp/passwd
       - run: test "${{ steps.action.outputs.cache-hit }}" != true
   cached:
@@ -32,6 +32,6 @@ jobs:
           cache: workflow
           tools: passwd
           install: cd /tmp; cp /etc/passwd
-          directory: /tmp
+          directory: /tmp/
       - run: ls -l /tmp/passwd
       - run: test "${{ steps.action.outputs.cache-hit }}" == true
