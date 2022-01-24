@@ -1,16 +1,11 @@
-# actions-use-apt-tools
+# actions-cache-updates
 
-![actions-use-apt-tools](https://github.com/office-tecoli/actions-use-apt-tools/actions/workflows/test.yml/badge.svg)
+![actions-cache-updates](https://github.com/office-tecoli/actions-cache-updates/actions/workflows/test.yml/badge.svg)
 
-This Github action isntall apt packages and cache them for later use.
-When executed next time with same package list, and any other
-environment are not changed, installed files are extracted from the
-cached archive.
-
-Installed file list is taken by `dpkg` command.
-
-When valid cached archive is not found, all packages are installed by
-`apt-get` command.  Incremental installation is not supported.
+This Github action execute given `command` for `target`, and cache
+updated files for later use.  When executed next time with same
+package list, and any other environment are not changed, updated files
+are extracted from the cached archive.
 
 Output is same as [`@actions/cache`](https://github.com/actions/cache).
 
@@ -18,15 +13,17 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
 
 ```yaml
 # inputs:
-#   tools:     { required: true,  type: string }
+#   command:   { required: true,  type: string }
+#   target:    { required: true,  type: string }
 #   cache:     { required: false, type: string, default: yes }
 #   cache-gen: { required: false, type: string, default: v1 }
 
-- uses: office-tecoli/actions-use-apt-tools@v0
+- uses: office-tecoli/actions-cache-updates@v0
   with:
 
-    # apt packages
-    tools: ''
+    command: ''
+
+    target: ''
 
     # Cache strategey
     #
@@ -47,7 +44,8 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
 ## Example
 
 ```yaml
-- uses: office-tecoli/actions-use-apt-tools@v0
+- uses: office-tecoli/actions-cache-updates@v0
   with:
-    tools: bmake
+    command: brew install
+    target:  brew-package
 ```

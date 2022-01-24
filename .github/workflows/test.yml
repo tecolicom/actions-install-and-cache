@@ -16,8 +16,8 @@ jobs:
         id: action
         with:
           cache: workflow
-          tools: 0 1 2 3 4 5 6 7 8 9
-          install: x=/tmp/x; mkdir -p $x; cd $x; touch
+          target: 0 1 2 3 4 5 6 7 8 9
+          command: mkdir -p /tmp/x; cd /tmp/x; touch
           directory: /tmp/x
       - run: ls -l /tmp/x
       - run: test "${{ steps.action.outputs.cache-hit }}" != true
@@ -30,8 +30,8 @@ jobs:
         id: action
         with:
           cache: workflow
-          tools: 0 1 2 3 4 5 6 7 8 9
-          install: x=/tmp/x; mkdir -p $x; cd $x; touch
+          target: 0 1 2 3 4 5 6 7 8 9
+          command: mkdir -p /tmp/x; cd /tmp/x; touch
           directory: /tmp/x
       - run: ls -l /tmp/x
       - run: test "${{ steps.action.outputs.cache-hit }}" == true
