@@ -1,4 +1,4 @@
-name: test
+name: brew test
 
 on:
   push:
@@ -8,6 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
+
   initial:
     runs-on: macos-latest
     steps:
@@ -25,6 +26,7 @@ jobs:
           directory: ${{ steps.setup.outputs.prefix }}
       - run: rcs --version
       - run: test "${{ steps.action.outputs.cache-hit }}" != true
+
   cached:
     needs: initial
     runs-on: macos-latest

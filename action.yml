@@ -77,10 +77,12 @@ runs:
         if [ -f $epoch ]
         then
           cd /
-          time sudo find $directory -cnewer $epoch -not -type d > $list
-          if [ -s $list ]
+          list=$( time sudo \
+                  find $directory \
+                       -not -type d \( -cnewer $epoch -o -mnewer $epoch \) -print )
+          if [ "$list" != '' ]
           then
-            time sudo tar -cvzf $archive -T $list
+            time sudo tar -cvzf $archive -T <(echo "$list")
             ls -l $archive
           else
             echo "no installed files."
