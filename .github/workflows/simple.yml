@@ -1,0 +1,47 @@
+name: test
+
+on:
+  push:
+    paths-ignore:
+      - '**.md'
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  initial:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - id: setup
+        run: |
+          prefix=$(brew --prefix)
+          echo "::set-output name=directory::$GITHUB_ACTION_PATH"
+          echo "::set-output name=target::TARGET_FILE"
+      - uses: ./
+        id: action
+        with:
+          cache: workflow
+          tools: target_file
+          install: touch
+          directory: ${{ steps.setup.outputs.directory }}
+      - run: ls -l "${{ steps.setup.outputs.target }}"
+      - run: test "${{ steps.action.outputs.cache-hit }}" != true
+  cached:
+    needs: initial
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - id: setup
+        run: |
+          prefix=$(brew --prefix)
+          echo "::set-output name=directory::$GITHUB_ACTION_PATH"
+          echo "::set-output name=target::TARGET_FILE"
+      - uses: ./
+        id: action
+        with:
+          cache: workflow
+          tools: target_file
+          install: touch
+          directory: ${{ steps.setup.outputs.directory }}
+      - run: ls -l "${{ steps.setup.outputs.target }}"
+      - run: test "${{ steps.action.outputs.cache-hit }}" == true
