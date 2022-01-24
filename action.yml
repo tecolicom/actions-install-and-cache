@@ -73,19 +73,19 @@ runs:
         directory="${{ inputs.directory }}"
         : ${epoch:?} ${archive:?} ${directory:?}
         [[ "$directory" =~ ^/ ]]
-        list=/tmp/find.out
+        list=/tmp/updated-list
         if [ -f $epoch ]
         then
           cd /
-          list=$( time sudo \
-                  find $directory \
-                       -not -type d \( -cnewer $epoch -o -mnewer $epoch \) -print )
-          if [ "$list" != '' ]
+          time sudo \
+               find $directory \
+                    -not -type d \( -cnewer $epoch -o -newer $epoch \) -print > $list
+          if [ -s $list ]
           then
-            time sudo tar -cvzf $archive -T <(echo "$list")
+            time sudo tar -cvzf $archive -T $list
             ls -l $archive
           else
-            echo "no installed files."
+            echo "no updated file found."
           fi
         else
           echo $epoch not found
