@@ -1,9 +1,9 @@
-# actions-cache-installed-files
+# actions-install-and-cache
 
-![actions-cache-installed-files](https://github.com/office-tecoli/actions-cache-installed-files/actions/workflows/test.yml/badge.svg)
+![actions-install-and-cache](https://github.com/office-tecoli/actions-install-and-cache/actions/workflows/test.yml/badge.svg)
 
 This Github action execute given `command` for `target`, and cache
-installed files for later use.  When executed next time with same
+installd files for later use.  When executed next time with same
 package list, and any other environment are not changed, updated files
 are extracted from the cached archive.
 
@@ -19,7 +19,7 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
 #   cache:     { required: false, type: string, default: yes }
 #   cache-gen: { required: false, type: string, default: v1 }
 
-- uses: office-tecoli/actions-cache-installed-files@v0
+- uses: office-tecoli/actions-install-and-cache@v0
   with:
 
     # install command
@@ -51,7 +51,7 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
 ## Example
 
 ```yaml
-- uses: office-tecoli/actions-cache-installed-files@v0
+- uses: office-tecoli/actions-install-and-cache@v0
   with:
     command: brew install
     target:  rcs cvs
