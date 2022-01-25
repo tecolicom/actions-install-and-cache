@@ -78,8 +78,8 @@ runs:
         then
           cd /
           time sudo \
-               find $directory \
-                    -not -type d \( -cnewer $epoch -o -newer $epoch \) -print > $list
+            find $directory \
+                 -not -type d \( -cnewer $epoch -o -newer $epoch \) -print > $list
           if [ -s $list ]
           then
             time sudo tar -cvzf $archive -T $list
