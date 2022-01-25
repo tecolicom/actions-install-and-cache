@@ -1,4 +1,4 @@
-name: install/cache updates
+name: install/cache installed files
 
 inputs:
   target:    { required: true,  type: string }

@@ -1,6 +1,6 @@
-# actions-cache-updates
+# actions-cache-installed-files
 
-![actions-cache-updates](https://github.com/office-tecoli/actions-cache-updates/actions/workflows/test.yml/badge.svg)
+![actions-cache-installed-files](https://github.com/office-tecoli/actions-cache-installed-files/actions/workflows/test.yml/badge.svg)
 
 This Github action execute given `command` for `target`, and cache
 installed files for later use.  When executed next time with same
@@ -19,7 +19,7 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
 #   cache:     { required: false, type: string, default: yes }
 #   cache-gen: { required: false, type: string, default: v1 }
 
-- uses: office-tecoli/actions-cache-updates@v0
+- uses: office-tecoli/actions-cache-installed-files@v0
   with:
 
     # install command
@@ -29,6 +29,7 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
     target: ''
 
     # install directory
+    # multiple directories can be specified
     directory: ''
 
     # Cache strategey
@@ -50,9 +51,16 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
 ## Example
 
 ```yaml
-- uses: office-tecoli/actions-cache-updates@v0
+- uses: office-tecoli/actions-cache-installed-files@v0
   with:
-    command:   brew install
-    target:    brew-package
+    command: brew install
+    target:  rcs cvs
     directory: /usr/local
 ```
+
+## See Also
+
+### [`@office-tecoli/actions-use-brew-tools`](https://github.com/office-tecoli/actions-use-brew-tools)
+
+[`@actions-use-brew-tools`](https://github.com/office-tecoli/actions-use-brew-tools)
+uses this action as a backend of its work.
