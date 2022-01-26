@@ -35,3 +35,18 @@ jobs:
           directory: /tmp/x
       - run: ls -l /tmp/x
       - run: test "${{ steps.action.outputs.cache-hit }}" == true
+  cache-gen:
+    needs: initial
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ./
+        id: action
+        with:
+          cache: workflow
+          target: 0 1 2 3 4 5 6 7 8 9
+          command: mkdir -p /tmp/x; cd /tmp/x; touch
+          directory: /tmp/x
+          cache-gen: v2
+      - run: ls -l /tmp/x
+      - run: test "${{ steps.action.outputs.cache-hit }}" != true
