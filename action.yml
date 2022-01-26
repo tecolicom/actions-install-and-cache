@@ -19,8 +19,8 @@ runs:
       shell: bash
       run: |
         case "${{ inputs.cache }}" in
-          yes|workflow) cache="${{ inputs.cache }}" ;;
-          *)            cache=no ;;
+            yes|workflow) cache="${{ inputs.cache }}" ;;
+            *)            cache=no ;;
         esac
         gen="${{ inputs.cache-gen }}"
         target="${{ inputs.target }}"
@@ -57,13 +57,11 @@ runs:
       if: steps.setup.outputs.cache == 'no' || steps.cache.outputs.cache-hit != 'true'
       shell: bash
       run: |
-        set -x
         epoch="${{ steps.setup.outputs.epoch }}"
         : ${epoch:?}
         test "${{ inputs.command }}" != ''
         test "${{ inputs.target }}" != ''
         date > $epoch
-        echo "$command $target"
         ${{ inputs.command }} ${{ inputs.target }}
 
     - id: archive
@@ -78,17 +76,17 @@ runs:
         list=/tmp/updated-list
         if [ -f $epoch ]
         then
-          cd /
-          time sudo \
-            find $directory \
-                 -not -type d \( -cnewer $epoch -o -newer $epoch \) -print > $list
-          if [ -s $list ]
-          then
-            time sudo tar -cvzf $archive -T $list
-            ls -l $archive
-          else
-            echo "no updated file found."
-          fi
+            cd /
+            time sudo \
+                find $directory \
+                     -not -type d \( -cnewer $epoch -o -newer $epoch \) -print > $list
+            if [ -s $list ]
+            then
+                time sudo tar -cvzf $archive -T $list
+                ls -l $archive
+            else
+                echo "no updated file found."
+            fi
         else
-          echo $epoch not found
+            echo $epoch not found
         fi
