@@ -36,7 +36,7 @@ jobs:
       - run: ls -l /tmp/x
       - run: test "${{ steps.action.outputs.cache-hit }}" == true
   cache-gen:
-    needs: initial
+    needs: cached
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -51,7 +51,7 @@ jobs:
       - run: ls -l /tmp/x
       - run: test "${{ steps.action.outputs.cache-hit }}" != true
   directory:
-    needs: initial
+    needs: cached
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
