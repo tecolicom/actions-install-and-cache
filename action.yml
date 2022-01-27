@@ -61,7 +61,7 @@ runs:
         : ${epoch:?}
         test "${{ inputs.command }}" != ''
         test "${{ inputs.target }}" != ''
-        touch -t $(date -v -1S -u +%Y%m%d%H%M.%S) $epoch
+        touch $epoch && touch -A -01 $epoch &> /dev/null || sleep 1
         ls -l $epoch
         ${{ inputs.command }} ${{ inputs.target }}
 
