@@ -61,7 +61,7 @@ runs:
         : ${epoch:?}
         test "${{ inputs.command }}" != ''
         test "${{ inputs.target }}" != ''
-        date > $epoch; sleep 1
+        touch $epoch && touch -A -01 $epoch
         ${{ inputs.command }} ${{ inputs.target }}
 
     - id: archive
