@@ -29,12 +29,12 @@ runs:
         md5sum /dev/null > /dev/null 2>&1 && md5=md5sum
         test "md5" != ''
         hash=$( (uname -mrsv ; echo $command $target $directory) | $md5 | awk '{print $1}' )
-        hash="$hash-$gen"
-        [ "$cache" == 'workflow' ] && hash=$hash-${{ github.run_id }}
+        key="$hash-$gen"
+        [ "$cache" == 'workflow' ] && key=$key-${{ github.run_id }}
         cat << END
         ::set-output name=cache::$cache
         ::set-output name=archive::$HOME/$hash.tz
-        ::set-output name=hash::$hash
+        ::set-output name=key::$key
         ::set-output name=epoch::/tmp/epoch_file
         END
 
@@ -43,7 +43,7 @@ runs:
       uses: actions/cache@v2
       with:
         path: ${{ steps.setup.outputs.archive }}
-        key:  ${{ steps.setup.outputs.hash }}
+        key:  ${{ steps.setup.outputs.key }}
 
     - id: extract
       if: steps.setup.outputs.cache != 'no' && steps.cache.outputs.cache-hit == 'true'
