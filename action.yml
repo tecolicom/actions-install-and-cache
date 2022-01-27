@@ -33,7 +33,7 @@ runs:
         [ "$cache" == 'workflow' ] && key=$key-${{ github.run_id }}
         cat << END
         ::set-output name=cache::$cache
-        ::set-output name=archive::$HOME/$hash.tz
+        ::set-output name=archive::$HOME/archive-$hash.tz
         ::set-output name=key::$key
         ::set-output name=epoch::/tmp/epoch_file
         END
@@ -68,6 +68,7 @@ runs:
       if: steps.setup.outputs.cache != 'no' && steps.cache.outputs.cache-hit != 'true'
       shell: bash
       run: |
+        ls -la $HOME; [ -d $HOME/.local ] && ls -la $HOME/.local
         epoch="${{ steps.setup.outputs.epoch }}"
         archive="${{ steps.setup.outputs.archive }}"
         directory="${{ inputs.directory }}"
