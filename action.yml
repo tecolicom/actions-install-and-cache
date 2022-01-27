@@ -74,7 +74,12 @@ runs:
         archive="${{ steps.setup.outputs.archive }}"
         directory="${{ inputs.directory }}"
         : ${epoch:?} ${archive:?} ${directory:?}
-        [[ "$directory" =~ ^/ ]]
+        set $directory
+        directory=
+        for dir in $*
+        do
+            [ -d "$dir" ] && [[ "$dir" =~ ^/ ]] && directory="$directory $dir"
+        done
         list=/tmp/updated-list
         if [ -f $epoch ]
         then
