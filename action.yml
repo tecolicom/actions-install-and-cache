@@ -61,14 +61,14 @@ runs:
         : ${epoch:?}
         test "${{ inputs.command }}" != ''
         test "${{ inputs.target }}" != ''
-        touch $epoch && touch -A -01 $epoch
+        touch -t $(date -v -1S -u +%Y%m%d%H%M.%S) $epoch
+        ls -l $epoch
         ${{ inputs.command }} ${{ inputs.target }}
 
     - id: archive
       if: steps.setup.outputs.cache != 'no' && steps.cache.outputs.cache-hit != 'true'
       shell: bash
       run: |
-        ls -la $HOME; [ -d $HOME/.local ] && ls -la $HOME/.local
         epoch="${{ steps.setup.outputs.epoch }}"
         archive="${{ steps.setup.outputs.archive }}"
         directory="${{ inputs.directory }}"
