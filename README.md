@@ -7,6 +7,10 @@ installd files for later use.  When executed next time with same
 package list, and any other environment are not changed, updated files
 are extracted from the cached archive.
 
+This action uses actions/cache and produce different cache key for
+different operating system environment.  If you need to use different
+cache for other reason, provide a key by parameter.
+
 Output is same as [`@actions/cache`](https://github.com/actions/cache).
 
 ## Usage
@@ -18,6 +22,7 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
 #   directory: { required: true,  type: string }
 #   cache:     { required: false, type: string, default: yes }
 #   cache-gen: { required: false, type: string, default: v1 }
+#   key:       { required: false, type: string }
 
 - uses: office-tecoli/actions-install-and-cache@v0
   with:
@@ -46,6 +51,9 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
     #
     # Default: v1
     cache-gen: v1
+
+    # Additional cache key
+    key: ''
 ```
 
 ## Example
