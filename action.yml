@@ -66,7 +66,7 @@ runs:
         : ${epoch:?}
         test "${{ inputs.command }}" != ''
         test "${{ inputs.target }}" != ''
-        touch $epoch && touch -A -01 $epoch &> /dev/null || sleep 1
+        touch $epoch && touch -A -01 $epoch &> /dev/null || sleep 0.1
         ls -l $epoch
         ${{ inputs.command }} ${{ inputs.target }}
 
