@@ -17,6 +17,7 @@ runs:
   steps:
 
     - id: setup
+      name: setup parameters
       shell: bash
       run: |
         case "${{ inputs.cache }}" in
@@ -39,6 +40,7 @@ runs:
         END
 
     - id: cache
+      name: cache
       if: steps.setup.outputs.cache != 'no'
       uses: actions/cache@v2
       with:
@@ -46,6 +48,7 @@ runs:
         key:  ${{ steps.setup.outputs.key }}
 
     - id: extract
+      name: extract archive
       if: steps.setup.outputs.cache != 'no' && steps.cache.outputs.cache-hit == 'true'
       shell: bash
       run: |
@@ -59,6 +62,7 @@ runs:
         fi
 
     - id: install
+      name: install
       if: steps.setup.outputs.cache == 'no' || steps.cache.outputs.cache-hit != 'true'
       shell: bash
       run: |
@@ -71,6 +75,7 @@ runs:
         ${{ inputs.command }} ${{ inputs.target }}
 
     - id: archive
+      name: archive
       if: steps.setup.outputs.cache != 'no' && steps.cache.outputs.cache-hit != 'true'
       shell: bash
       run: |
