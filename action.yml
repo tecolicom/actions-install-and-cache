@@ -35,7 +35,7 @@ runs:
         ::set-output name=cache::$cache
         ::set-output name=archive::$HOME/archive-$hash.tz
         ::set-output name=key::$key
-        ::set-output name=epoch::/tmp/epoch_file
+        ::set-output name=epoch::/tmp/epoch-$$
         END
 
     - id: cache
