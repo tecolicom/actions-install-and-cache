@@ -17,9 +17,9 @@ runs:
   steps:
 
     - id: setup
-      name: setup parameters
       shell: bash
       run: |
+        : setup
         case "${{ inputs.cache }}" in
             yes|workflow) cache="${{ inputs.cache }}" ;;
             *)            cache=no ;;
@@ -40,7 +40,6 @@ runs:
         END
 
     - id: cache
-      name: cache
       if: steps.setup.outputs.cache != 'no'
       uses: actions/cache@v2
       with:
@@ -48,10 +47,10 @@ runs:
         key:  ${{ steps.setup.outputs.key }}
 
     - id: extract
-      name: extract archive
       if: steps.setup.outputs.cache != 'no' && steps.cache.outputs.cache-hit == 'true'
       shell: bash
       run: |
+        : extract
         archive="${{ steps.setup.outputs.archive }}"
         ls -l $archive
         if [ -s $archive ]
@@ -62,10 +61,10 @@ runs:
         fi
 
     - id: install
-      name: install
       if: steps.setup.outputs.cache == 'no' || steps.cache.outputs.cache-hit != 'true'
       shell: bash
       run: |
+        : install
         epoch="${{ steps.setup.outputs.epoch }}"
         : ${epoch:?}
         test "${{ inputs.command }}" != ''
@@ -75,10 +74,10 @@ runs:
         ${{ inputs.command }} ${{ inputs.target }}
 
     - id: archive
-      name: archive
       if: steps.setup.outputs.cache != 'no' && steps.cache.outputs.cache-hit != 'true'
       shell: bash
       run: |
+        : archive
         epoch="${{ steps.setup.outputs.epoch }}"
         archive="${{ steps.setup.outputs.archive }}"
         directory="${{ inputs.directory }}"
