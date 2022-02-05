@@ -19,7 +19,7 @@ runs:
     - id: setup
       shell: bash
       run: |
-        : setup
+        : setup ${{ github.repository }}
         case "${{ inputs.cache }}" in
             yes|workflow) cache="${{ inputs.cache }}" ;;
             *)            cache=no ;;
@@ -31,7 +31,7 @@ runs:
         given_key="${{ inputs.key }}"
         hash=$( (uname -mrsv ; echo $command $target $directory) | (md5sum||md5) | awk '{print $1}' )
         key="${hash}${given_key:+-$given_key}${gen:+-$gen}"
-        [ "$cache" == 'workflow' ] && key="$key-${{ github.run_id }}"
+        [ "$cache" == 'workflow' ] && key="$key-${{ github.run_id }}-${{ github.run_attempt }}"
         cat << END
         ::set-output name=cache::$cache
         ::set-output name=archive::$HOME/archive-$hash.tz
