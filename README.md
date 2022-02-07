@@ -2,7 +2,7 @@
 
 ![actions-install-and-cache](https://github.com/office-tecoli/actions-install-and-cache/actions/workflows/test.yml/badge.svg)
 
-This Github action execute given `command` for `target`, and cache
+This GitHub action execute given `command` for `target`, and cache
 installd files for later use.  When executed next time with same
 package list, and any other environment are not changed, updated files
 are extracted from the cached archive.
@@ -60,7 +60,9 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
 
 ## See Also
 
-### [`@office-tecoli/actions-use-brew-tools`](https://github.com/office-tecoli/actions-use-brew-tools)
+### [office-tecoli/actions](https://github.com/office-tecoli/actions)
+
+### [office-tecoli/actions-use-brew-tools](https://github.com/office-tecoli/actions-use-brew-tools)
 
 [`@actions-use-brew-tools`](https://github.com/office-tecoli/actions-use-brew-tools)
 uses this action as a backend of its work.
