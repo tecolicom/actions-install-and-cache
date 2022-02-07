@@ -21,7 +21,6 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
 #   target:    { required: true,  type: string }
 #   directory: { required: true,  type: string }
 #   cache:     { required: false, type: string, default: yes }
-#   cache-gen: { required: false, type: string, default: v1 }
 #   key:       { required: false, type: string }
 
 - uses: office-tecoli/actions-install-and-cache@v0
@@ -44,13 +43,6 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
     # workflow: effective within same workflow (mainly for test)
     #
     cache: yes
-
-    # Cache generation.
-    # You can set any string to this parameter and different generation
-    # number produces different cache key.
-    #
-    # Default: v1
-    cache-gen: v1
 
     # Additional cache key
     key: ''
