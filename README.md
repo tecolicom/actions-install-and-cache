@@ -36,7 +36,7 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
     # multiple directories can be specified
     directory: ''
 
-    # Cache strategey
+    # Cache strategy
     #
     # yes:      activate cache
     # no:       no cache
