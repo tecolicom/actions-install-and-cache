@@ -24,6 +24,7 @@ jobs:
           command: brew install
           target: rcs
           directory: ${{ steps.setup.outputs.prefix }}
+          verbose: true
       - run: rcs --version
       - run: test "${{ steps.action.outputs.cache-hit }}" != true
 
@@ -43,5 +44,6 @@ jobs:
           command: brew install
           target: rcs
           directory: ${{ steps.setup.outputs.prefix }}
+          verbose: true
       - run: rcs --version
       - run: test "${{ steps.action.outputs.cache-hit }}" == true

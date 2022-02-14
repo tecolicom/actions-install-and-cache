@@ -19,6 +19,7 @@ jobs:
           target: 0 1 2 3 4 5 6 7 8 9
           command: mkdir -p /tmp/x && cd /tmp/x && touch
           directory: /tmp/x
+          verbose: true
       - run: ls -l /tmp/x
       - run: test "${{ steps.action.outputs.cache-hit }}" != true
   cached:
@@ -33,6 +34,7 @@ jobs:
           target: 0 1 2 3 4 5 6 7 8 9
           command: mkdir -p /tmp/x && cd /tmp/x && touch
           directory: /tmp/x
+          verbose: true
       - run: ls -l /tmp/x
       - run: test "${{ steps.action.outputs.cache-hit }}" == true
   key:
@@ -47,6 +49,7 @@ jobs:
           target: 0 1 2 3 4 5 6 7 8 9
           command: mkdir -p /tmp/x && cd /tmp/x && touch
           directory: /tmp/x
+          verbose: true
           key: v2
       - run: ls -l /tmp/x
       - run: test "${{ steps.action.outputs.cache-hit }}" != true
@@ -62,6 +65,7 @@ jobs:
           target: 0 1 2 3 4 5 6 7 8 9
           command: mkdir -p /tmp/y && cd /tmp/y && touch
           directory: /tmp/y
+          verbose: true
           key: v2
       - run: ls -l /tmp/y
       - run: test "${{ steps.action.outputs.cache-hit }}" != true
