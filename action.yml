@@ -100,7 +100,8 @@ runs:
         if [ -f $epoch ]
         then
             cd /
-            time $sudo \
+            # require sudo to avoid permission error
+            time sudo \
                 find $directory \
                      -not -type d \( -cnewer $epoch -o -newer $epoch \) -print > $list
             if [ -s $list ]
