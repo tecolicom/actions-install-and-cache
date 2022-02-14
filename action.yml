@@ -6,6 +6,7 @@ inputs:
   directory: { required: true,  type: string }
   cache:     { required: false, type: string, default: yes }
   key:       { required: false, type: string }
+  verbose:   { required: false, type: boolean, default: false }
 
 outputs:
   cache-hit:
@@ -50,10 +51,15 @@ runs:
       run: |
         : extract
         archive="${{ steps.setup.outputs.archive }}"
+        verbose="${{ inputs.verbose }}"
         ls -l $archive
         if [ -s $archive ]
         then
-            sudo tar -C / -xvzf $archive
+            if [ "$verbose" = true ]
+            then
+                tar -tvzf $archive
+            fi
+            $sudo tar -C / -xvzf $archive
         else
             echo "$archive is empty"
         fi
@@ -78,6 +84,7 @@ runs:
         : archive
         epoch="${{ steps.setup.outputs.epoch }}"
         archive="${{ steps.setup.outputs.archive }}"
+        verbose="${{ inputs.verbose }}"
         directory="${{ inputs.directory }}"
         : ${epoch:?} ${archive:?} ${directory:?}
         set $directory
@@ -97,6 +104,10 @@ runs:
             then
                 time sudo tar -cvzf $archive -T $list
                 ls -l $archive
+                if [ "$verbose" = true ]
+                then
+                    tar -tvzf $archive
+                fi
             else
                 echo "no updated file found."
                 touch $archive
