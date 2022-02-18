@@ -71,13 +71,14 @@ runs:
       shell: bash
       run: |
         : install
+        [ "${{ inputs.sudo }}" = true ] && sudo=sudo
         epoch="${{ steps.setup.outputs.epoch }}"
         : ${epoch:?}
         test "${{ inputs.command }}" != ''
         test "${{ inputs.target }}" != ''
         touch $epoch && touch -A -01 $epoch &> /dev/null || sleep 0.1
         ls -l $epoch
-        ${{ inputs.command }} ${{ inputs.target }}
+        $sudo ${{ inputs.command }} ${{ inputs.target }}
 
     - id: archive
       if: steps.setup.outputs.cache != 'no' && steps.cache.outputs.cache-hit != 'true'
