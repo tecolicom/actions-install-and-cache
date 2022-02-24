@@ -62,7 +62,7 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
 
 ### [tecoli-com/actions](https://github.com/tecoli-com/actions)
 
-### [tecoli-com/actions-use-brew-tools](https://github.com/tecoli-com/actions-use-brew-tools)
+### [tecoli-com/actions-use-homebrew-tools](https://github.com/tecoli-com/actions-use-homebrew-tools)
 
-[`@actions-use-brew-tools`](https://github.com/tecoli-com/actions-use-brew-tools)
+[`@actions-use-homebrew-tools`](https://github.com/tecoli-com/actions-use-homebrew-tools)
 uses this action as a backend of its work.
