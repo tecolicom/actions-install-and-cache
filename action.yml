@@ -1,4 +1,9 @@
 name: install/cache files
+description: 'GitHub Action to run installer and cache result'
+author: 'Office TECOLI, LLC'
+branding: 
+  color: 'orange'
+  icon: 'plus-square'
 
 inputs:
   target:    { required: true,  type: string }
