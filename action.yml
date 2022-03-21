@@ -3,7 +3,7 @@ description: 'GitHub Action to run installer and cache result'
 author: 'Office TECOLI, LLC'
 branding: 
   color: 'orange'
-  icon: 'plus-square'
+  icon: 'type'
 
 inputs:
   target:    { required: true,  type: string }
