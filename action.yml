@@ -26,20 +26,26 @@ runs:
       shell: bash
       run: |
         : setup install-and-cache
-        case "${{ inputs.cache }}" in
-            yes|workflow) cache="${{ inputs.cache }}" ;;
-            *)            cache=no ;;
-        esac
         target="${{ inputs.target }}"
         command="${{ inputs.command }}"
         directory="${{ inputs.directory }}"
         given_key="${{ inputs.key }}"
-        hash=$( (uname -mrsv ; echo $command $target $directory) | (md5sum||md5) | awk '{print $1}' )
-        key="${hash}${given_key:+-$given_key}"
-        [ "$cache" == 'workflow' ] && key="$key-${{ github.run_id }}-${{ github.run_attempt }}"
+        archive= key=
+        case "${{ inputs.cache }}" in
+            yes|workflow)
+                cache="${{ inputs.cache }}"
+                hash=$( (uname -mrsv ; echo $command $target $directory) | (md5sum||md5) | awk '{print $1}' )
+                key="${hash}${given_key:+-$given_key}"
+                [ "$cache" == 'workflow' ] && key="$key-${{ github.run_id }}-${{ github.run_attempt }}"
+                archive=$HOME/archive-$hash.tz
+                ;;
+            *)
+                cache=no
+                ;;
+        esac
         cat << END
         ::set-output name=cache::$cache
-        ::set-output name=archive::$HOME/archive-$hash.tz
+        ::set-output name=archive::$archive
         ::set-output name=key::$key
         ::set-output name=epoch::/tmp/epoch-$$
         END
@@ -71,57 +77,12 @@ runs:
             echo "$archive is empty"
         fi
 
-    - id: install
-      if: steps.setup.outputs.cache == 'no' || steps.cache.outputs.cache-hit != 'true'
-      shell: bash
-      run: |
-        : install
-        [ "${{ inputs.sudo }}" = true ] && sudo=sudo
-        epoch="${{ steps.setup.outputs.epoch }}"
-        : ${epoch:?}
-        test "${{ inputs.command }}" != ''
-        test "${{ inputs.target }}" != ''
-        touch $epoch && touch -A -01 $epoch &> /dev/null || sleep 0.1
-        ls -l $epoch
-        $sudo ${{ inputs.command }} ${{ inputs.target }}
-
-    - id: archive
-      if: steps.setup.outputs.cache != 'no' && steps.cache.outputs.cache-hit != 'true'
-      shell: bash
-      run: |
-        : archive
-        epoch="${{ steps.setup.outputs.epoch }}"
-        archive="${{ steps.setup.outputs.archive }}"
-        verbose="${{ inputs.verbose }}"
-        directory="${{ inputs.directory }}"
-        [ "${{ inputs.sudo }}" = true ] && sudo=sudo
-        : ${epoch:?} ${archive:?} ${directory:?}
-        set $directory
-        directory=
-        for dir in $*
-        do
-            [ -d "$dir" ] && [[ "$dir" =~ ^/ ]] && directory="$directory $dir"
-        done
-        list=/tmp/updated-list
-        if [ -f $epoch ]
-        then
-            cd /
-            # require sudo to avoid permission error
-            time sudo \
-                find $directory \
-                     -not -type d \( -cnewer $epoch -o -newer $epoch \) -print > $list
-            if [ -s $list ]
-            then
-                time $sudo tar -cvzf $archive -T $list
-                ls -l $archive
-                if [ "$verbose" = true ]
-                then
-                    tar -tvzf $archive
-                fi
-            else
-                echo "no updated file found."
-                touch $archive
-            fi
-        else
-            echo $epoch not found
-        fi
+    - id: install-and-archive
+      if: steps.cache.outputs.cache-hit != 'true'
+      uses: tecoli-com/actions-install-and-archive@v0
+      with:
+        target:    ${{ inputs.target }}
+        command:   ${{ inputs.command }}
+        archive:   ${{ steps.setup.outputs.archive }}
+        directory: ${{ inputs.directory }}
+        sudo:      ${{ inputs.sudo }}
