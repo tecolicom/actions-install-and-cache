@@ -34,6 +34,7 @@ runs:
         case "${{ inputs.cache }}" in
             yes|workflow)
                 cache="${{ inputs.cache }}"
+                uname -mrsv
                 hash=$( (uname -mrsv ; echo $command $target $directory) | (md5sum||md5) | awk '{print $1}' )
                 key="${hash}${given_key:+-$given_key}"
                 [ "$cache" == 'workflow' ] && key="$key-${{ github.run_id }}-${{ github.run_attempt }}"
