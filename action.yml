@@ -1,13 +1,13 @@
 name: install-and-cache generic backend
-description: 'GitHub Action to run installer and cache result'
+description: 'GitHub Action to run installer and cache the result'
 author: 'Office TECOLI, LLC'
 branding: 
-  color: 'orange'
-  icon: 'type'
+  color: orange
+  icon:  type
 
 inputs:
-  target:    { required: true,  type: string }
   command:   { required: true,  type: string }
+  target:    { required: true,  type: string }
   directory: { required: true,  type: string }
   cache:     { required: false, type: string, default: yes }
   key:       { required: false, type: string }
@@ -34,8 +34,8 @@ runs:
         case "${{ inputs.cache }}" in
             yes|workflow)
                 cache="${{ inputs.cache }}"
-                uname -mrsv
-                hash=$( (uname -mrsv ; echo $command $target $directory) | (md5sum||md5) | awk '{print $1}' )
+                uname -mrs
+                hash=$( (uname -mrs ; echo $command $target $directory) | (md5sum||md5) | awk '{print $1}' )
                 key="${hash}${given_key:+-$given_key}"
                 [ "$cache" == 'workflow' ] && key="$key-${{ github.run_id }}-${{ github.run_attempt }}"
                 archive=$HOME/archive-$hash.tz
