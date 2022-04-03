@@ -3,7 +3,7 @@
 ![actions-install-and-cache](https://github.com/tecoli-com/actions-install-and-cache/actions/workflows/test.yml/badge.svg)
 
 This GitHub action execute given `command` for `target`, and cache
-installd files for later use.  When executed next time with same
+installed files for later use.  When executed next time with same
 package list, and any other environment are not changed, updated files
 are extracted from the cached archive.
 
@@ -22,6 +22,8 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
 #   directory: { required: true,  type: string }
 #   cache:     { required: false, type: string, default: yes }
 #   key:       { required: false, type: string }
+#   sudo:      { required: false, type: boolean }
+#   verbose:   { required: false, type: boolean, default: false }
 
 - uses: tecoli-com/actions-install-and-cache@v0
   with:
@@ -46,6 +48,12 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
 
     # Additional cache key
     key: ''
+
+    # sudo: sudo or not
+    sudo: false
+
+    # verbose: show verbose output
+    verbose: false
 ```
 
 ## Example
@@ -61,6 +69,8 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
 ## See Also
 
 ### [tecoli-com/actions](https://github.com/tecoli-com/actions)
+
+### [tecoli-com/actions-install-and-archive](https://github.com/tecoli-com/actions-install-and-archive)
 
 ### [tecoli-com/actions-use-homebrew-tools](https://github.com/tecoli-com/actions-use-homebrew-tools)
 
