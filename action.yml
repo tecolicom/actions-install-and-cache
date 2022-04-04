@@ -6,13 +6,13 @@ branding:
   icon:  type
 
 inputs:
-  command:   { required: true,  type: string }
-  target:    { required: true,  type: string }
-  directory: { required: true,  type: string }
-  cache:     { required: false, type: string, default: yes }
-  key:       { required: false, type: string }
-  sudo:      { required: false, type: boolean }
-  verbose:   { required: false, type: boolean, default: false }
+  command: { required: true,  type: string }
+  target:  { required: true,  type: string }
+  path:    { required: true,  type: string }
+  cache:   { required: false, type: string, default: yes }
+  key:     { required: false, type: string }
+  sudo:    { required: false, type: boolean }
+  verbose: { required: false, type: boolean, default: false }
 
 outputs:
   cache-hit:
@@ -28,7 +28,7 @@ runs:
         : setup install-and-cache
         target="${{ inputs.target }}"
         command="${{ inputs.command }}"
-        directory="${{ inputs.directory }}"
+        directory="${{ inputs.path }}"
         given_key="${{ inputs.key }}"
         archive= key=
         case "${{ inputs.cache }}" in
@@ -80,10 +80,10 @@ runs:
 
     - id: install-and-archive
       if: steps.cache.outputs.cache-hit != 'true'
-      uses: tecoli-com/actions-install-and-archive@v0
+      uses: tecoli-com/actions-install-and-archive@v0.3
       with:
-        target:    ${{ inputs.target }}
-        command:   ${{ inputs.command }}
-        archive:   ${{ steps.setup.outputs.archive }}
-        directory: ${{ inputs.directory }}
-        sudo:      ${{ inputs.sudo }}
+        target:  ${{ inputs.target }}
+        command: ${{ inputs.command }}
+        archive: ${{ steps.setup.outputs.archive }}
+        path:    ${{ inputs.path }}
+        sudo:    ${{ inputs.sudo }}

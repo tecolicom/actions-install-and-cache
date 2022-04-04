@@ -23,7 +23,7 @@ jobs:
           cache: workflow
           command: brew install
           target: rcs
-          directory: ${{ steps.setup.outputs.prefix }}
+          path: ${{ steps.setup.outputs.prefix }}
           verbose: true
       - run: rcs --version
       - run: test "${{ steps.action.outputs.cache-hit }}" != true
@@ -43,7 +43,7 @@ jobs:
           cache: workflow
           command: brew install
           target: rcs
-          directory: ${{ steps.setup.outputs.prefix }}
+          path: ${{ steps.setup.outputs.prefix }}
           verbose: true
       - run: rcs --version
       - run: test "${{ steps.action.outputs.cache-hit }}" == true

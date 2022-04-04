@@ -17,13 +17,13 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
 
 ```yaml
 # inputs:
-#   command:   { required: true,  type: string }
-#   target:    { required: true,  type: string }
-#   directory: { required: true,  type: string }
-#   cache:     { required: false, type: string, default: yes }
-#   key:       { required: false, type: string }
-#   sudo:      { required: false, type: boolean }
-#   verbose:   { required: false, type: boolean, default: false }
+#   command: { required: true,  type: string }
+#   target:  { required: true,  type: string }
+#   path:    { required: true,  type: string }
+#   cache:   { required: false, type: string, default: yes }
+#   key:     { required: false, type: string }
+#   sudo:    { required: false, type: boolean }
+#   verbose: { required: false, type: boolean, default: false }
 
 - uses: tecoli-com/actions-install-and-cache@v0
   with:
@@ -34,9 +34,9 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
     # install target
     target: ''
 
-    # install directory
+    # install path
     # multiple directories can be specified
-    directory: ''
+    path: ''
 
     # Cache strategy
     #
@@ -63,7 +63,7 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
   with:
     command: brew install
     target:  rcs cvs
-    directory: /usr/local
+    path:    /usr/local
 ```
 
 ## See Also
