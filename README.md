@@ -2,10 +2,10 @@
 
 ![actions-install-and-cache](https://github.com/tecoli-com/actions-install-and-cache/actions/workflows/test.yml/badge.svg)
 
-This GitHub action execute given `command` for `target`, and cache
-installed files for later use.  When executed next time with same
-package list, and any other environment are not changed, updated files
-are extracted from the cached archive.
+This GitHub action execute given script, and cache installed files for
+later use.  When executed next time with same package list, and any
+other environment are not changed, updated files are extracted from
+the cached archive.
 
 This action uses actions/cache and produce different cache key for
 different operating system environment.  If you need to use different
@@ -17,8 +17,7 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
 
 ```yaml
 # inputs:
-#   command: { required: true,  type: string }
-#   target:  { required: true,  type: string }
+#   run:     { required: true,  type: string }
 #   path:    { required: true,  type: string }
 #   cache:   { required: false, type: string, default: yes }
 #   key:     { required: false, type: string }
@@ -28,11 +27,8 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
 - uses: tecoli-com/actions-install-and-cache@v0
   with:
 
-    # install command
-    command: ''
-
-    # install target
-    target: ''
+    # install script
+    run: ''
 
     # install path
     # multiple directories can be specified
@@ -61,9 +57,8 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
 ```yaml
 - uses: tecoli-com/actions-install-and-cache@v0
   with:
-    command: brew install
-    target:  rcs cvs
-    path:    /usr/local
+    run:  brew install rcs cvs
+    path: /usr/local
 ```
 
 ## See Also
