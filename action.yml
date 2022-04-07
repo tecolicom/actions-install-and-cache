@@ -85,8 +85,7 @@ runs:
       if: steps.cache.outputs.cache-hit != 'true'
       uses: tecoli-com/actions-install-and-archive@v0.4
       with:
-        run: |-
-          ${{ inputs.run }}
+        run:     ${{ inputs.run }}
         archive: ${{ steps.setup.outputs.archive }}
         path:    ${{ inputs.path }}
         sudo:    ${{ inputs.sudo }}
