@@ -21,8 +21,7 @@ jobs:
         id: action
         with:
           cache: workflow
-          command: brew install
-          target: rcs
+          run: brew install rcs
           path: ${{ steps.setup.outputs.prefix }}
           verbose: true
       - run: rcs --version
@@ -41,8 +40,7 @@ jobs:
         id: action
         with:
           cache: workflow
-          command: brew install
-          target: rcs
+          run: brew install rcs
           path: ${{ steps.setup.outputs.prefix }}
           verbose: true
       - run: rcs --version

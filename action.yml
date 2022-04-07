@@ -6,8 +6,7 @@ branding:
   icon:  type
 
 inputs:
-  command: { required: true,  type: string }
-  target:  { required: true,  type: string }
+  run:     { required: true,  type: string }
   path:    { required: true,  type: string }
   cache:   { required: false, type: string, default: yes }
   key:     { required: false, type: string }
@@ -26,8 +25,10 @@ runs:
       shell: bash
       run: |
         : setup install-and-cache
-        target="${{ inputs.target }}"
-        command="${{ inputs.command }}"
+        define() { IFS='\n' read -r -d '' ${1} || true ; }
+        define script <<'EOS_cad8_c24e_'
+        ${{ inputs.run }}
+        EOS_cad8_c24e_
         directory="${{ inputs.path }}"
         given_key="${{ inputs.key }}"
         archive= key=
@@ -35,9 +36,11 @@ runs:
             yes|workflow)
                 cache="${{ inputs.cache }}"
                 uname -mrs
-                hash=$( (uname -mrs ; echo $command $target $directory) | (md5sum||md5) | awk '{print $1}' )
+                hash=$( (uname -mrs ; cat <<< "$script" ; echo $directory) | \
+                        (md5sum||md5) | awk '{print $1}' )
                 key="${hash}${given_key:+-$given_key}"
-                [ "$cache" == 'workflow' ] && key="$key-${{ github.run_id }}-${{ github.run_attempt }}"
+                [ "$cache" == 'workflow' ] && \
+                    key="$key-${{ github.run_id }}-${{ github.run_attempt }}"
                 archive=$HOME/archive-$hash.tz
                 ;;
             *)
@@ -80,10 +83,10 @@ runs:
 
     - id: install-and-archive
       if: steps.cache.outputs.cache-hit != 'true'
-      uses: tecoli-com/actions-install-and-archive@v0.3
+      uses: tecoli-com/actions-install-and-archive@v0.4
       with:
-        target:  ${{ inputs.target }}
-        command: ${{ inputs.command }}
+        run: |-
+          ${{ inputs.run }}
         archive: ${{ steps.setup.outputs.archive }}
         path:    ${{ inputs.path }}
         sudo:    ${{ inputs.sudo }}
