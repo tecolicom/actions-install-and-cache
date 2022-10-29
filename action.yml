@@ -47,11 +47,11 @@ runs:
                 cache=no
                 ;;
         esac
-        cat << END
-        ::set-output name=cache::$cache
-        ::set-output name=archive::$archive
-        ::set-output name=key::$key
-        ::set-output name=epoch::/tmp/epoch-$$
+        cat << END >> $GITHUB_OUTPUT
+        cache=$cache
+        archive=$archive
+        key=$key
+        epoch=/tmp/epoch-$$
         END
 
     - id: cache

@@ -16,7 +16,7 @@ jobs:
       - id: setup
         run: |
           prefix=$(brew --prefix)
-          echo "::set-output name=prefix::$prefix"
+          echo "prefix=$prefix" >> $GITHUB_OUTPUT
       - uses: ./
         id: action
         with:
@@ -35,7 +35,7 @@ jobs:
       - id: setup
         run: |
           prefix=$(brew --prefix)
-          echo "::set-output name=prefix::$prefix"
+          echo "prefix=$prefix" >> $GITHUB_OUTPUT
       - uses: ./
         id: action
         with:
