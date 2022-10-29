@@ -76,7 +76,7 @@ runs:
             then
                 tar -tvzf $archive
             fi
-            $sudo tar -C / -xvzf $archive || $sudo tar -C / -xvzf $archive
+            $sudo tar -C / -P -xvzf $archive
         else
             echo "$archive is empty"
         fi
