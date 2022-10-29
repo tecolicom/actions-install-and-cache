@@ -83,7 +83,7 @@ runs:
 
     - id: install-and-archive
       if: steps.cache.outputs.cache-hit != 'true'
-      uses: tecoli-com/actions-install-and-archive@v0.4
+      uses: tecoli-com/actions-install-and-archive@v0.5
       with:
         run:     ${{ inputs.run }}
         archive: ${{ steps.setup.outputs.archive }}
