@@ -24,7 +24,7 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
 #   sudo:    { required: false, type: boolean }
 #   verbose: { required: false, type: boolean, default: false }
 
-- uses: tecoli-com/actions-install-and-cache@v0
+- uses: tecolicom/actions-install-and-cache@v1
   with:
 
     # install script
@@ -55,7 +55,7 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
 ## Example
 
 ```yaml
-- uses: tecoli-com/actions-install-and-cache@v0
+- uses: tecolicom/actions-install-and-cache@v1
   with:
     run:  brew install rcs cvs
     path: /usr/local
