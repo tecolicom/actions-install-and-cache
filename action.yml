@@ -51,7 +51,6 @@ runs:
             cache=$cache
             archive=$archive
             key=$key
-            epoch=/tmp/epoch-$$
         END
 
     - id: cache
