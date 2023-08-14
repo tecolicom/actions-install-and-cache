@@ -12,7 +12,7 @@ jobs:
   initial:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - id: setup
         run: |
           prefix=$(brew --prefix)
@@ -31,7 +31,7 @@ jobs:
     needs: initial
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - id: setup
         run: |
           prefix=$(brew --prefix)
