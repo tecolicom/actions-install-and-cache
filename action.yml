@@ -11,7 +11,6 @@ inputs:
   cache:   { required: false, type: string, default: yes }
   key:     { required: false, type: string }
   sudo:    { required: false, type: boolean }
-  sudo_ex: { required: false, type: boolean }
   verbose: { required: false, type: boolean, default: false }
 
 outputs:
@@ -68,13 +67,11 @@ runs:
         : extract
         archive="${{ steps.setup.outputs.archive }}"
         verbose="${{ inputs.verbose }}"
-        [ "${{ inputs.sudo }}"    = true ] && sudo=sudo
-        [ "${{ inputs.sudo_ex }}" = true ] && sudo=sudo
         ls -l $archive
         if [ -s $archive ]
         then
             [ "$verbose" = true ] && tar -tvzf $archive
-            $sudo tar -C / -P -xvzf $archive
+            sudo tar -C / -P -xvzf $archive
         else
             echo "$archive is empty"
         fi
