@@ -78,7 +78,7 @@ runs:
 
     - id: install-and-archive
       if: steps.cache.outputs.cache-hit != 'true'
-      uses: tecolicom/actions-install-and-archive@v1.3
+      uses: tecolicom/actions-install-and-archive@v1
       with:
         run:     ${{ inputs.run }}
         archive: ${{ steps.setup.outputs.archive }}
