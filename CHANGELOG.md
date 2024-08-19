@@ -1,3 +1,7 @@
+## v1.2
+
+- always extract archive with the root privilege
+
 ## v1.1
 
 - Version 1.1

@@ -45,7 +45,7 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
     # Additional cache key
     key: ''
 
-    # sudo: sudo or not
+    # sudo: run install script as root
     sudo: false
 
     # verbose: show verbose output
