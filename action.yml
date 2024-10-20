@@ -68,10 +68,8 @@ runs:
         archive="${{ steps.setup.outputs.archive }}"
         verbose="${{ inputs.verbose }}"
         ls -l $archive
-        if [ -s $archive ]
-        then
-            [ "$verbose" = true ] && tar -tvzf $archive
-            sudo tar -C / -P -xvzf $archive
+        if [ -s $archive ]; then
+            sudo tar -C / -P -x${{ inputs.verbose && 'v' || '' }}zf $archive
         else
             echo "$archive is empty"
         fi
