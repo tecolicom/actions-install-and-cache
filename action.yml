@@ -10,8 +10,8 @@ inputs:
   path:    { required: true,  type: string }
   cache:   { required: false, type: string, default: yes }
   key:     { required: false, type: string }
-  sudo:    { required: false, type: boolean }
-  verbose: { required: false, type: boolean, default: false }
+  sudo:    { required: false, type: string }
+  verbose: { required: false, type: string, default: false }
 
 outputs:
   cache-hit:
@@ -70,8 +70,9 @@ runs:
         ls -l $archive
         if [ -s $archive ]
         then
-            [ "$verbose" = true ] && tar -tvzf $archive
-            sudo tar -C / -P -xvzf $archive
+            opt=-Pxz
+            [[ $verbose = yes || $verbose = true ]] && opt+=v
+            sudo tar -C / $opt -f $archive
         else
             echo "$archive is empty"
         fi

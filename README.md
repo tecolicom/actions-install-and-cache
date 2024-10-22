@@ -21,8 +21,8 @@ Output is same as [`@actions/cache`](https://github.com/actions/cache).
 #   path:    { required: true,  type: string }
 #   cache:   { required: false, type: string, default: yes }
 #   key:     { required: false, type: string }
-#   sudo:    { required: false, type: boolean }
-#   verbose: { required: false, type: boolean, default: false }
+#   sudo:    { required: false, type: string }
+#   verbose: { required: false, type: string, default: false }
 
 - uses: tecolicom/actions-install-and-cache@v1
   with:
