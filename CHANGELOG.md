@@ -1,3 +1,7 @@
+## v1.2.1
+
+- fix "verbose" flag behavior
+
 ## v1.2
 
 - always extract archive with the root privilege
