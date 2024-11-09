@@ -40,7 +40,7 @@ runs:
                         (md5sum||md5) | awk '{print $1}' )
                 key="${hash}${given_key:+-$given_key}"
                 [ "$cache" == 'workflow' ] && \
-                    key="$key-${{ github.run_id }}-${{ github.run_attempt }}"
+                    key+="-${{ github.run_id }}-${{ github.run_attempt }}"
                 archive=$HOME/archive-$hash.tz
                 ;;
             *)
