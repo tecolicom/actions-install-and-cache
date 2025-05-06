@@ -47,10 +47,21 @@ runs:
                 cache=no
                 ;;
         esac
+        # use "--recursive-unlink" option if GNU tar is found
+        if tar --version | grep GNU > /dev/null
+        then
+            tar="tar --recursive-unlink"
+        elif gtar --version | grep GNU > /dev/null
+        then
+            tar="gtar --recursive-unlink"
+        else
+            tar=tar
+        fi
         sed 's/^ *//' << END >> $GITHUB_OUTPUT
             cache=$cache
             archive=$archive
             key=$key
+            tar=$tar
         END
 
     - id: cache
@@ -67,12 +78,13 @@ runs:
         : extract
         archive="${{ steps.setup.outputs.archive }}"
         verbose="${{ inputs.verbose }}"
+        tar="${{ steps.setup.outputs.tar }}"
         ls -l $archive
         if [ -s $archive ]
         then
             opt=-Pxz
-            [[ $verbose = yes || $verbose = true ]] && opt+=v
-            sudo tar -C / $opt -f $archive
+            [[ $verbose == yes || $verbose == true ]] && opt+=v
+            sudo $tar -C / $opt -f $archive
         else
             echo "$archive is empty"
         fi
